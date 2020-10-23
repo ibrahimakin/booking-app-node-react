@@ -44,7 +44,14 @@ const mySchema = buildSchema(`
 
 const myResolver = {
     events: () => {
-        return events;
+        return Event.find().then(events => {
+            return events.map(event => {
+                return { ...event._doc, _id: event.id };
+            });
+        }).catch(err => {
+
+        });
+        //return events;
     },
     createEvent: (args) => {
         //     const event = {
@@ -60,9 +67,9 @@ const myResolver = {
             price: +args.eventInput.price,
             date: new Date(args.eventInput.date)
         });
-        return event.save(event).then(result => {
+        return event.save().then(result => {
             console.log(result);
-            return { ...result._doc };
+            return { ...result._doc, _id: result._doc._id.toString() };
         }).catch(err => {
             console.log(err);
             throw err;
