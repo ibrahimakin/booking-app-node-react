@@ -7,7 +7,7 @@ const mySchema = buildSchema(`
         event: Event!
         user: User!
         createdAt: String!
-        updateAt: String!
+        updatedAt: String!
     }
 
     type Event {
