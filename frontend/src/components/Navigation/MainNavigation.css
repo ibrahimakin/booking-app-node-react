@@ -33,7 +33,7 @@
 
 .main-navigation__items a {
     text-decoration: none;
-    color: orange;
+    color:  rgb(66, 255, 66);
 }
 
 .main-navigation__items a:hover {
@@ -41,5 +41,6 @@
 }
 
 .main-navigation__items a.active {
-color: #000;
+color: #FFF;
+font-weight: bold;
 }
