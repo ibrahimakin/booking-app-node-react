@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import AuthContext from '../context/auth-context';
 import './Auth.css';
 
 const AuthPage = (props) => {
 
     const [isLogin, setIsLogin] = useState(true);
+
+    const contextType = useContext(AuthContext);
 
     const emailEl = React.createRef();
     const passwordEl = React.createRef();
@@ -60,7 +63,14 @@ const AuthPage = (props) => {
                 return res.json();
             })
             .then((resData) => {
-                console.log(resData);
+                if (resData.data.login.token) {
+                    contextType.login(
+                        resData.data.login.token,
+                        resData.data.login.userId,
+                        resData.data.login.tokenExpiration
+                    );
+                }
+                // console.log(resData);
             })
             .catch((err) => {
                 console.log(err);
@@ -68,6 +78,9 @@ const AuthPage = (props) => {
     };
 
     return (
+        /*<AuthContext.Consumer >
+            {(context) => {
+                return (*/
         <form className="auth-form" onSubmit={submitHandler}>
             <div className="form-control">
                 <label htmlFor="email">E-mail</label>
@@ -82,6 +95,9 @@ const AuthPage = (props) => {
                 <button type="button" onClick={switchModeHandler}>Switch to {isLogin ? 'Signup' : 'Login'}</button>
             </div>
         </form>
+        /*);
+    }}
+</AuthContext.Consumer >*/
     );
 };
 
