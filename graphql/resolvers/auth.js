@@ -16,7 +16,7 @@ const authResolver = {
             });
             const result = await user.save();
 
-            return { ...result, password: null, _id: result.id };
+            return { ...result, password: null, _id: result.id, email: result.email };
 
         } catch (error) {
             throw error;
