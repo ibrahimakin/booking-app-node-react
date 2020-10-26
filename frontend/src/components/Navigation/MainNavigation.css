@@ -13,15 +13,18 @@
     padding: 0 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .main-navigation__logo h1 {
     margin: 0;
+    text-shadow: 2px 0px 1px rgb(255, 255, 255);
     font-size: 1.5rem;
+    margin-left: 1rem;
 }
 
 .main-navigation__items {
-    margin-left: 1.5rem;
+    margin-right: 1.5rem;
 }
 
 .main-navigation__items ul {
