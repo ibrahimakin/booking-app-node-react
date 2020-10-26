@@ -22,7 +22,7 @@ const singleEvent = async (eventId) => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 const user = async (userId) => {
     try {
@@ -38,6 +38,7 @@ const user = async (userId) => {
 };
 
 const transformEvent = event => {
+    //console.log(event._doc);
     return {
         ...event._doc,
         _id: event.id,
@@ -55,7 +56,7 @@ const transformBooking = booking => {
         createdAt: dateToString(booking._doc.createdAt),
         updatedAt: dateToString(booking._doc.updatedAt),
     };
-}
+};
 
 exports.transformBooking = transformBooking;
 exports.transformEvent = transformEvent;

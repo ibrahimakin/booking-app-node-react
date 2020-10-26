@@ -39,8 +39,8 @@ const eventResolver = {
             return createdEvent; //{ ...result._doc, _id: result._doc._id.toString() };
 
         } catch (error) {
-            console.log(err);
-            throw err;
+            //console.log(err);
+            throw error;
         }
     },
 };
