@@ -1,0 +1,13 @@
+:root{
+    --main-purple: #5101d1;
+    --main-blue:  rgb(59, 192, 245);
+}
+
+.events-control {
+    text-align: center;
+    border: 1px solid var(--main-purple);
+    padding: 1rem;
+    margin: 2rem auto;
+    width: 30rem;
+    max-width: 80%;
+}

@@ -1,18 +1,15 @@
-/backend-node-express-graphql-mongoose/nodemon.json
-/backend-node-express-graphql-mongoose/node_modules
-
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/frontend-react/node_modules
-/frontend-react/.pnp
+/node_modules
+/.pnp
 .pnp.js
 
 # testing
-/frontend-react/coverage
+/coverage
 
 # production
-/frontend-react/build
+/build
 
 # misc
 .DS_Store
