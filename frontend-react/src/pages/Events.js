@@ -90,7 +90,7 @@ const EventsPage = (props) => {
                                 email: contextType.email
                             }
                         }
-                    )
+                    );
                     return updatedEvents;
                 }
                 );
@@ -154,11 +154,47 @@ const EventsPage = (props) => {
         //console.log(eventId);
         setSelectedEvent(events.find(e => e._id === eventId));
         //console.log(selectedEvent);
-    }
+    };
 
     const bookEventHandler = () => {
-
-    }
+        const token = contextType.token;
+        if (!token) {
+            setSelectedEvent(null);
+            return;
+        }
+        const requestBody = {
+            query: `
+                mutation {
+                    bookEvent(eventId: "${selectedEvent._id}") {
+                        _id
+                        createdAt
+                        updatedAt
+                    }
+                }
+            `
+        };
+        fetch('http://localhost:8000/graphql', {
+            method: 'POST',
+            body: JSON.stringify(requestBody),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then((res) => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Failed');
+                }
+                return res.json();
+            })
+            .then((resData) => {
+                console.log(resData);
+                setSelectedEvent(null);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     return (
         <React.Fragment>
@@ -198,7 +234,7 @@ const EventsPage = (props) => {
                     canConfirm
                     onCancel={modalCancelHandler}
                     onConfirm={bookEventHandler}
-                    confirmText="Book">
+                    confirmText={contextType.token ? 'Book' : 'Confirm'}>
                     <h1>{selectedEvent.title}</h1>
                     <h2>₺{selectedEvent.price}</h2>
                     <h2>{new Date(selectedEvent.date).toLocaleString('tr-TR')}</h2>
