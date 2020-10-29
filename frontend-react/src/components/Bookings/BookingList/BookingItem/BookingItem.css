@@ -1,0 +1,9 @@
+.bookings__item {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border:1px solid;
+    border-color: var(--main-purple);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
