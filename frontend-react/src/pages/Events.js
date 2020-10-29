@@ -13,11 +13,13 @@ const EventsPage = (props) => {
     const [events, setEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
+    //let isActive = true;
 
     const contextType = useContext(AuthContext);
 
     useEffect(() => {
         fetchEvents();
+        //return (() => {isActive = false;});
     }, []);
 
     const titleEl = createRef();
@@ -46,8 +48,8 @@ const EventsPage = (props) => {
 
         const requestBody = {
             query: `
-                mutation {
-                    createEvent(eventInput:{title: "${title}", description: "${description}", price:${price}, date:"${date}" }) {
+                mutation CreateEvent($title: String!,  $description: String!, $price: Float!, $date: String!) {
+                    createEvent(eventInput:{title: $title, description: $description, price: $price, date: $date }) {
                         _id
                         title
                         price
@@ -55,7 +57,13 @@ const EventsPage = (props) => {
                         date
                     }
                 }
-            `
+            `,
+            variables: {
+                title,
+                description,
+                price,
+                date
+            }
         };
 
         const token = contextType.token;
@@ -75,7 +83,7 @@ const EventsPage = (props) => {
                 return res.json();
             })
             .then((resData) => {
-                console.log(resData.data.createEvent);
+                //console.log(resData.data.createEvent);
                 setEvents((prevState) => {
                     const updatedEvents = [...prevState];;
                     updatedEvents.push(
@@ -141,12 +149,16 @@ const EventsPage = (props) => {
             })
             .then((resData) => {
                 // console.log(resData);
+                //if (isActive) {
                 setEvents(resData.data.events);
                 setIsLoading(false);
+                //}
             })
             .catch((err) => {
                 console.log(err);
+                //if (isActive) {
                 setIsLoading(false);
+                //}
             });
     };
 
@@ -164,14 +176,17 @@ const EventsPage = (props) => {
         }
         const requestBody = {
             query: `
-                mutation {
-                    bookEvent(eventId: "${selectedEvent._id}") {
+                mutation BookEvent($id: ID!) {
+                    bookEvent(eventId: $id) {
                         _id
                         createdAt
                         updatedAt
                     }
                 }
-            `
+            `,
+            variables: {
+                id: selectedEvent._id
+            }
         };
         fetch('http://localhost:8000/graphql', {
             method: 'POST',
@@ -188,7 +203,7 @@ const EventsPage = (props) => {
                 return res.json();
             })
             .then((resData) => {
-                console.log(resData);
+                //console.log(resData);
                 setSelectedEvent(null);
             })
             .catch((err) => {
@@ -198,6 +213,7 @@ const EventsPage = (props) => {
 
     return (
         <React.Fragment>
+            <h1 style={{ width: '40rem', margin: 'auto', maxWidth: '90%' }}>Events</h1>
             {(creating || selectedEvent) && <Backdrop />}
             {creating &&
                 <Modal
